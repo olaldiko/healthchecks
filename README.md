@@ -1,3 +1,7 @@
+# Github actions test example project
+I'm using a Django based project to explore the posibilities of Github actions and train myself on using them
+
+
 # Healthchecks
 
 [![Tests](https://github.com/healthchecks/healthchecks/actions/workflows/tests.yml/badge.svg)](https://github.com/healthchecks/healthchecks/actions/workflows/tests.yml)
