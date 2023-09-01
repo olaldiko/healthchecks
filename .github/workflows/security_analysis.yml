@@ -1,0 +1,31 @@
+name: Django CI
+
+on:
+  push:
+    branches: [ "master" ]
+  pull_request:
+    branches: [ "master" ]
+jobs:
+    security_tests:
+        runs-on: ubuntu-latest
+        strategy:
+            max-parellel: 4
+            matrix:
+                python-version: [3.8, 3.9, 3.10]
+        steps:
+            - uses: actions/checkout@v3
+            - name: Set up Python ${{ matrix.python-version }}
+              uses: actions/setup-python@v3
+              with:
+                  python-version: ${{ matrix.python-version }}
+            - name: Install dependencies
+              run: |
+                sudo apt-get update -qq
+                sudo apt-get install -y libcurl4-openssl-dev libpython3-dev libssl-dev
+                python -m pip install --upgrade pip # Runs the commands for installing pip and the project the dependencies
+                pip install -r requirements.txt
+                pip install bandit
+            - name: Run bandit
+              continue-on-error: true
+              run: |
+                bandit -r -f yaml -o bandit_report.yml .
